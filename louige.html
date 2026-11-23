@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Louige Lim | Nexora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>
+  // Show the loading screen every time a member page opens (failsafe: never longer than 15s)
+  (function () {
+    var d = document.documentElement;
+    d.classList.add('js', 'member-doc', 'booting');
+    setTimeout(function () {
+      d.classList.remove('booting');
+      var s = document.getElementById('site');
+      if (s) s.removeAttribute('inert');
+    }, 15000);
+  })();
+</script>
+<noscript><style>.loader { display: none; }</style></noscript>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/><stop offset=".35" stop-color="#9cc0f2"/>
+      <stop offset=".7" stop-color="#3b6fc4"/><stop offset="1" stop-color="#16367a"/>
+    </linearGradient>
+    <linearGradient id="steel2" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e6f0ff"/><stop offset=".5" stop-color="#6d9be0"/><stop offset="1" stop-color="#1b4a9a"/>
+    </linearGradient>
+    <symbol id="arrow" viewBox="0 0 22 14"><path d="M0 7h19M13 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="nmark" viewBox="0 0 200 150">
+      <path d="M62 40 L98 40 L132 96 L132 40 L158 40 L158 118 L124 118 L88 62 L88 118 L62 118 Z" fill="url(#steel)"/>
+      <path d="M62 40 L98 40 L88 62 L62 62Z" fill="#fff" opacity=".85"/>
+      <path d="M158 40 L158 118 L132 118Z" fill="url(#steel2)" opacity=".8"/>
+      <ellipse cx="100" cy="92" rx="92" ry="26" transform="rotate(-18 100 92)" fill="none" stroke="url(#steel)" stroke-width="7"/>
+      <ellipse cx="100" cy="92" rx="92" ry="26" transform="rotate(-18 100 92)" fill="none" stroke="#fff" stroke-width="1.5" opacity=".7"/>
+      <path d="M176 14 q2 12 12 14 q-10 2 -12 14 q-2 -12 -12 -14 q10 -2 12 -14Z" fill="#fff"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="bg" aria-hidden="true"></div>
+
+<!-- ========== Loading screen: Java-style initialization ========== -->
+<div class="loader" id="loader" role="status" aria-label="Loading Louige's page">
+  <div class="term" aria-hidden="true">
+    <div class="term-bar"><i></i><i></i><i></i><span>Louige.java</span></div>
+    <pre class="code" id="code"></pre>
+    <pre class="out" id="out"></pre>
+    <div class="progress"><span id="bar"></span></div>
+    <div class="status"><span id="msg">Compiling...</span><span id="pct">0%</span></div>
+  </div>
+</div>
+
+<div id="site">
+<main class="member-page gray" data-first="Louige" data-name="Louige Lim">
+
+  <!-- Left: profile (stays in place while the content scrolls) -->
+  <aside class="profile" aria-label="Profile">
+    <a class="pill back" href="index.html#team"><svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg> Back to team</a>
+    <div class="frame"><img src="assets/louige.png" alt="Louige Lim"></div>
+    <h1>Louige Lim</h1>
+    <dl class="facts">
+      <dt>Group</dt><dd>Nexora</dd>
+      <dt>Role</dt><dd class="todo">Documentation</dd>
+    </dl>
+    <a class="mini-brand" href="index.html#home" aria-label="Nexora home"><svg viewBox="0 0 200 150" aria-hidden="true"><use href="#nmark"/></svg><span>NEXORA</span></a>
+  </aside>
+
+  <!-- Right: scrolling content -->
+  <div class="content" id="content" tabindex="0" aria-label="Louige's page content">
+    <nav class="tabs" aria-label="Page sections">
+      <a href="#intro" class="active" aria-current="true">Introduction</a>
+      <a href="#interests">Interests / Hobbies</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <section class="panel" id="intro">
+      <h2 class="block-title">Introduction</h2>
+      <div class="card">
+        <p class="intro-text todo">Hello everyone, I am Louige or for short "Igy", and I would like all of you to know that I am pretty much an introverted guy who really doesn't go out that much, and prefer to play games on steam whenever I have some free time to spare.</p>
+      </div>
+    </section>
+
+    <section class="panel" id="interests">
+      <h2 class="block-title">Interests / Hobbies</h2>
+      <div class="card">
+        <p class="intro-text todo">Playing online games with the love of my life <br> Do some exercises <br> Sleeping <br> Coding</p>
+      </div>
+    </section>
+
+    <section class="panel" id="projects">
+      <h2 class="block-title">Projects</h2>
+      <div class="proj-grid">
+        <article class="card proj">
+          <h4>Nexora Website</h4>
+          <p>The group's home online: who we are, what we build, and the people behind it.</p>
+          <span class="tag">In progress</span>
+        </article>
+        <article class="card proj empty">
+          <h4>Personal projects</h4>
+          <p>Projects by Louige will appear here.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" id="contact">
+      <h2 class="block-title">Personal contacts</h2>
+      <div class="card">
+        <!-- Replace each "To be added" with a link, e.g. <a class="v" href="mailto:you@example.com">you@example.com</a> -->
+        <div class="contact-rows">
+          <div class="contact-item"><span class="k">Email</span><span class="v todo">To be added</span></div>
+          <div class="contact-item"><span class="k">GitHub</span><span class="v todo">To be added</span></div>
+          <div class="contact-item"><span class="k">Facebook</span><span class="v todo">To be added</span></div>
+          <div class="contact-item"><span class="k">Instagram</span><span class="v todo">To be added</span></div>
+        </div>
+      </div>
+    </section>
+
+    <p class="foot">&copy; 2026 Nexora. Innovation through technology.</p>
+  </div>
+</main>
+</div>
+
+<script src="member.js"></script>
+</body>
+</html>

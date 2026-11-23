@@ -6,14 +6,25 @@
 <title>Nexora | Innovation Through Technology</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&family=Figtree:wght@400;500;600&family=Anton&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script>
+  // Decide before first paint whether to show the loading screen (once per browser session)
+  (function () {
+    var d = document.documentElement;
+    d.classList.add('js');
+    try { if (sessionStorage.getItem('nexoraBooted')) { d.classList.add('seen'); return; } } catch (e) {}
+    d.classList.add('booting');
+    setTimeout(function () {
+      d.classList.remove('booting');
+      var s = document.getElementById('site');
+      if (s) s.removeAttribute('inert');
+    }, 15000);
+  })();
+</script>
+<noscript><style>.loader { display: none; }</style></noscript>
 </head>
-
-<!-- ===================== HTML ===================== -->
 <body>
-<!-- Reusable SVG: arrow + N logo -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1">
@@ -35,115 +46,237 @@
   </defs>
 </svg>
 
-<header class="hero" id="home">
-  <div class="streaks" id="streaks" aria-hidden="true">
-    <span class="streak s1"></span><span class="streak thin s1" style="top:27%"></span>
-    <span class="streak s2"></span><span class="streak s3"></span>
-    <span class="streak s4"></span><span class="streak s5"></span><span class="streak s6"></span>
-    <span class="dots tr"></span><span class="dots bl"></span>
-    <span class="glowline bottom"></span>
+<div class="bg" aria-hidden="true"></div>
+
+<!-- ========== Loading screen: Java-style initialization ========== -->
+<div class="loader" id="loader" role="status" aria-label="Loading Nexora">
+  <div class="term" aria-hidden="true">
+    <div class="term-bar"><i></i><i></i><i></i><span>Nexora.java</span></div>
+    <pre class="code" id="code"></pre>
+    <pre class="out" id="out"></pre>
+    <div class="progress"><span id="bar"></span></div>
+    <div class="status"><span id="msg">Compiling...</span><span id="pct">0%</span></div>
   </div>
+</div>
 
-  <nav class="nav" aria-label="Main">
-    <a class="brand" href="#home" aria-label="Nexora home">
-      <svg viewBox="0 0 200 150"><use href="#nmark"/></svg>
-      <span>NEXORA</span>
-    </a>
-    <ul class="menu" id="menu">
-      <li><a href="#home" class="active">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#team">Our team</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a class="pill" href="#about">Explore More <svg class="arrow"><use href="#arrow"/></svg></a>
-  </nav>
+<div id="site">
+<nav class="nav" aria-label="Main">
+  <a class="brand" href="#home" aria-label="Nexora home">
+    <svg viewBox="0 0 200 150"><use href="#nmark"/></svg>
+    <span>NEXORA</span>
+  </a>
+  <ul class="menu" id="menu">
+    <li><a href="#home" class="active">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#team">Our team</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="pill" href="#about">Explore More <svg class="arrow"><use href="#arrow"/></svg></a>
+  <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span></button>
+</nav>
 
-  <main class="content">
-    <svg class="logo-mark" viewBox="0 0 200 150" role="img" aria-label="Nexora logo"><use href="#nmark"/></svg>
-    <h1 class="wordmark">NEXORA</h1>
-    <p class="tagline">INNOVATION THROUGH TECHNOLOGY</p>
-    <p class="sub">Shaping Tomorrow, Today.</p>
-    <a class="cta pill" href="#about" style="border:0">Discover Our Vision <svg class="arrow"><use href="#arrow"/></svg></a>
-  </main>
+<!-- ========== Home ========== -->
+<header class="home" id="home">
+  <canvas class="hex-bg" id="hexBg" aria-hidden="true"></canvas>
+  <div class="hud" aria-hidden="true">
+    <svg viewBox="0 0 44 44"><polygon points="22,3 39,12.5 39,31.5 22,41 5,31.5 5,12.5"/><polygon points="22,14 30,18.5 30,27.5 22,32 14,27.5 14,18.5" fill="currentColor" style="color:#19d3d0;opacity:.5"/></svg>
+    <span class="hud-line"></span><span class="hud-bar"></span>
+  </div>
+  <svg class="waves" viewBox="0 0 400 300" fill="none" stroke="#19d3d0" stroke-width="1" aria-hidden="true">
+    <g transform="rotate(-20 400 300)">
+      <ellipse cx="400" cy="300" rx="70" ry="40"/><ellipse cx="400" cy="300" rx="100" ry="58"/>
+      <ellipse cx="400" cy="300" rx="130" ry="76"/><ellipse cx="400" cy="300" rx="160" ry="94"/>
+      <ellipse cx="400" cy="300" rx="190" ry="112"/><ellipse cx="400" cy="300" rx="220" ry="130"/>
+      <ellipse cx="400" cy="300" rx="250" ry="148"/><ellipse cx="400" cy="300" rx="280" ry="166"/>
+    </g>
+  </svg>
+
+  <div class="home-inner">
+    <div class="lockup">
+      <div class="logo-anim">
+        <svg viewBox="0 0 200 150" role="img" aria-label="Nexora logo"><use href="#nmark"/></svg>
+        <canvas id="hexLogo" aria-hidden="true"></canvas>
+      </div>
+      <div class="lockup-text">
+        <h1 class="wordmark">NEXORA</h1>
+        <p class="tagline">INNOVATION THROUGH TECHNOLOGY</p>
+        <p class="sub">Shaping Tomorrow, Today.</p>
+      </div>
+    </div>
+
+  </div>
 </header>
 
-<section class="about" id="about">
-  <div class="streaks" aria-hidden="true">
-    <span class="streak s1" style="top:12%"></span><span class="streak s3" style="top:20%"></span>
-    <span class="streak s4" style="bottom:24%"></span><span class="streak s5" style="bottom:4%"></span>
-    <span class="dots bl" style="bottom:90px"></span>
-  </div>
+<!-- ========== About ========== -->
+<section class="sec" id="about">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <h2 class="sec-title">About the group</h2>
+      <p class="sec-sub">Who we are, what we do, and our goals</p>
+    </div>
 
-  <div class="about-inner">
-    <h2 class="about-title">ABOUT THE GROUP</h2>
-    <p class="about-sub">WHO WE ARE, WHAT WE DO, AND OUR GOALS</p>
-
-    <div class="panel who">
-      <div class="who-logo">
-        <svg viewBox="0 0 200 150" aria-hidden="true"><use href="#nmark"/></svg>
-        <span>NEXORA</span>
+    <div class="block" id="about-intro">
+      <h3 class="block-title">Introduction</h3>
+      <div class="card who">
+        <div class="who-logo">
+          <svg viewBox="0 0 200 150" aria-hidden="true"><use href="#nmark"/></svg>
+          <span>NEXORA</span>
+        </div>
+        <p class="who-text">
+          NEXORA is a student-led group passionate about
+          <span class="c-red">exploring technology</span>,
+          <span class="c-sky">sharing ideas</span>, and
+          <span class="c-blue">learning new possibilities</span>.
+          As we grow and develop our skills, we aim to create simple yet meaningful projects that can be
+          <span class="c-teal">useful and accessible to everyone</span>.
+        </p>
       </div>
-      <p class="who-text">
-        NEXORA is a student-led group passionate about
-        <span class="c-red">exploring technology</span>,
-        <span class="c-sky">sharing ideas</span>, and
-        <span class="c-blue">learning new possibilities</span>.
-        As we grow and develop our skills, we aim to create simple yet meaningful projects that can be
-        <span class="c-teal">useful and accessible to everyone</span>
-      </p>
     </div>
 
-    <div class="panel goals">
-      <span class="goals-tab">Our Goals</span>
-      <span class="goals-stripes" aria-hidden="true"></span>
-      <svg class="target" viewBox="0 0 100 100" fill="none" stroke="#6fc3e6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="46" cy="56" r="34"/><circle cx="46" cy="56" r="22"/><circle cx="46" cy="56" r="9" fill="#6fc3e6"/>
-        <path d="M46 56 L82 20"/><path d="M82 20 L84 8 L96 20 L84 22Z M74 28 L80 34"/>
-      </svg>
-      <ul class="goal-list">
-        <li>Make everyday tasks easier through technology</li>
-        <li>Promote creativity and innovation.</li>
-        <li>Develop solutions to real-world problems.</li>
-        <li>Make digital resources accessible to everyone.</li>
-      </ul>
+    <div class="block" id="about-objectives">
+      <h3 class="block-title">Objectives</h3>
+      <div class="card goals">
+        <svg class="target" viewBox="0 0 100 100" fill="none" stroke="#6fc3e6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="46" cy="56" r="34"/><circle cx="46" cy="56" r="22"/><circle cx="46" cy="56" r="9" fill="#6fc3e6"/>
+          <path d="M46 56 L82 20"/><path d="M82 20 L84 8 L96 20 L84 22Z M74 28 L80 34"/>
+        </svg>
+        <ul class="goal-list">
+          <li>Make everyday tasks easier through technology</li>
+          <li>Promote creativity and innovation.</li>
+          <li>Develop solutions to real-world problems.</li>
+          <li>Make digital resources accessible to everyone.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block" id="about-users">
+      <h3 class="block-title">Target users</h3>
+      <div class="users">
+        <div class="user"><h4>Students and learners</h4><p>People who want simple tools that help with schoolwork and new skills.</p></div>
+        <div class="user"><h4>Tech beginners</h4><p>Anyone taking their first steps in coding, design, or digital tools.</p></div>
+        <div class="user"><h4>Local communities</h4><p>Groups who can use practical, easy-to-reach digital resources.</p></div>
+        <div class="user"><h4>Everyone else</h4><p>Anyone who needs technology to be clear, free of clutter, and open to all.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Projects ========== -->
+<section class="sec" id="projects">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <h2 class="sec-title">Projects</h2>
+      <p class="sec-sub">What we are building</p>
+    </div>
+
+    <div class="block" id="projects-featured">
+      <h3 class="block-title">Featured projects</h3>
+      <div class="proj-grid">
+        <article class="card proj">
+          <h4>Nexora Website</h4>
+          <p>The group's home online: who we are, what we build, and the people behind it.</p>
+          <span class="tag">In progress</span>
+        </article>
+        <article class="card proj empty">
+          <h4>Your next project</h4>
+          <p>More projects will appear here as the group builds them.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="block" id="projects-details">
+      <h3 class="block-title">Project details</h3>
+      <div class="card">
+        <dl class="details">
+          <dt>Project</dt><dd>Nexora Website</dd>
+          <dt>Purpose</dt><dd>Introduce the group, its goals, and its members.</dd>
+          <dt>Built with</dt><dd>HTML, CSS, and JavaScript</dd>
+          <dt>Status</dt><dd>In progress</dd>
+          <dt>Team</dt><dd>4 members</dd>
+        </dl>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="team" id="team">
-  <div class="streaks" aria-hidden="true">
-    <span class="streak s1" style="top:14%"></span><span class="streak s4" style="bottom:30%"></span>
-    <span class="streak s5" style="bottom:6%"></span>
-    <span class="dots tr"></span>
-  </div>
-  <span class="spark" style="top:150px;right:60px"></span>
-  <span class="spark" style="top:290px;left:80px;transform:scale(.7)"></span>
-  <span class="spark" style="bottom:130px;right:150px;transform:scale(.8)"></span>
-  <span class="gold-corner" aria-hidden="true"></span>
-  <span class="pink-corner" aria-hidden="true"></span>
-
-  <div class="team-inner">
-    <div class="team-head">
-      <span class="rule"></span>
-      <h2 class="team-title">MEET <em>THE TEAM</em></h2>
-      <span class="rule"></span>
+<!-- ========== Team ========== -->
+<section class="sec team" id="team">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <h2 class="sec-title">Meet the team</h2>
+      <p class="sec-sub">The people behind these ideas</p>
     </div>
-    <p class="team-sub">THE PEOPLE BEHIND THIS IDEAS</p>
 
-    <div class="members">
-      <article class="member gold">
-        <a class="frame" href="joshiel.html" aria-label="View Joshiel Leonil Dela Cruz's page"><img src="assets/joshiel.jpg" alt="Joshiel Leonil Dela Cruz"><span class="nameplate">Joshiel Leonil Dela Cruz</span></a>
-      </article>
-      <article class="member pink">
-        <a class="frame" href="kirsten.html" aria-label="View Kirsten Irish F. Eclipse's page"><img src="assets/kirsten.jpeg" alt="Kirsten Irish F. Eclipse"><span class="nameplate">Kirsten Irish F. Eclipse</span></a>
-      </article>
-      <article class="member blue">
-        <a class="frame" href="juniell.html" aria-label="View Juniell Chune Oliero Laron's page"><img src="assets/juniell.jpeg" alt="Juniell Chune Oliero Laron"><span class="nameplate">Juniell Chune Oliero Laron</span></a>
-      </article>
+    <div class="block" id="team-members">
+      <h3 class="block-title">Team members</h3>
+      <div class="carousel" id="carousel" role="region" aria-roledescription="carousel" aria-label="Team members" tabindex="0">
+        <button class="car-btn prev" type="button" aria-label="Previous member"><svg class="arrow"><use href="#arrow"/></svg></button>
+        <div class="members">
+          <article class="member gold">
+            <a class="frame" href="joshiel.html" aria-label="View Joshiel Leonil Dela Cruz's page"><img src="assets/joshiel.jpg" alt="Joshiel Leonil Dela Cruz"><span class="nameplate">Joshiel Leonil Dela Cruz</span></a>
+          </article>
+          <article class="member pink">
+            <a class="frame" href="kirsten.html" aria-label="View Kirsten Irish F. Eclipse's page"><img src="assets/kirsten.jpeg" alt="Kirsten Irish F. Eclipse"><span class="nameplate">Kirsten Irish F. Eclipse</span></a>
+          </article>
+          <article class="member blue">
+            <a class="frame" href="juniell.html" aria-label="View Juniell Chune Oliero Laron's page"><img src="assets/juniell.jpeg" alt="Juniell Chune Oliero Laron"><span class="nameplate">Juniell Chune Oliero Laron</span></a>
+          </article>
+          <article class="member gray">
+            <a class="frame" href="louige.html" aria-label="View Louige Lim's page"><img src="assets/louige.png" alt="Louige Lim"><span class="nameplate">Louige Lim</span></a>
+          </article>
+        </div>
+        <button class="car-btn next" type="button" aria-label="Next member"><svg class="arrow"><use href="#arrow"/></svg></button>
+        <div class="car-dots" id="carDots"></div>
+      </div>
+    </div>
+
+    <div class="block" id="team-roles">
+      <h3 class="block-title">Roles &amp; responsibilities</h3>
+      <div class="roles">
+        <div class="role gold"><h4>Joshiel Leonil Dela Cruz</h4><p>Programmer</p></div>
+        <div class="role pink"><h4>Kirsten Irish F. Eclipse</h4><p>Designer</p></div>
+        <div class="role blue"><h4>Juniell Chune Oliero Laron</h4><p>Creatives</p></div>
+        <div class="role gray"><h4>Louige Lim</h4><p>Documentation</p></div>
+      </div>
     </div>
   </div>
 </section>
+
+<!-- ========== Contact ========== -->
+<section class="sec" id="contact">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <h2 class="sec-title">Contact</h2>
+      <p class="sec-sub">Get in touch with the group</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="block" id="contact-info" style="margin-top:0">
+        <h3 class="block-title">Contact information</h3>
+        <div class="card">
+          <dl class="contact-list">
+            <div><dt>Email</dt><dd><a href="mailto:hello@nexora.example">hello@nexora.example</a></dd></div>
+            <div><dt>Group</dt><dd>Nexora, a student-led group</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="block" id="contact-social" style="margin-top:0">
+        <h3 class="block-title">Social media links</h3>
+        <div class="card">
+          <div class="social">
+            <a class="chip" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+            <a class="chip" href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a>
+            <a class="chip" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="foot">&copy; 2026 Nexora. Innovation through technology.</p>
+  </div>
+</section>
+</div>
 
 <script src="script.js"></script>
 </body>
